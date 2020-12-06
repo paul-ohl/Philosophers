@@ -2,3 +2,5 @@ tags
 objs/
 deps/
 *test*
+a.out*
+philosophers

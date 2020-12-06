@@ -22,9 +22,9 @@ $O:
 $(OBJS): | $O
 
 $(OBJS): $O%.o: $S%
-	@printf "Compiling $^: "
-	@$(CC) $(CFLAGS) -c $< -o $@
-	@echo "✓"
+	# @printf "Compiling $^: "
+	$(CC) $(CFLAGS) -c $< -o $@
+	# @echo "✓"
 
 $D:
 	@mkdir $@
@@ -32,11 +32,11 @@ $D:
 $(DEPS): | $D
 
 $(DEPS): $D%.d: $S%
-	@$(CC) $(CFLAGS) -MM -MF $@ -MT "$O$*.o $@" $<
+	$(CC) $(CFLAGS) -MM -MF $@ -MT "$O$*.o $@" $<
 
 $(NAME): $(OBJS)
-	@echo "Assembling $(NAME)"
-	@$(CC) $(LDFLAGS) $^ -o $@
+	# @echo "Assembling $(NAME)"
+	$(CC) $(LDFLAGS) $^ -o $@
 
 clean:
 	@echo "Cleaning up... 🕸🧹"
