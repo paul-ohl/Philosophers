@@ -1,0 +1,4 @@
+tags
+objs/
+deps/
+*test*
