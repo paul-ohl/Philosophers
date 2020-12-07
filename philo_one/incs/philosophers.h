@@ -6,7 +6,7 @@
 /*   By: paulohl <pohl@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 09:01:55 by paulohl           #+#    #+#             */
-/*   Updated: 2020/12/07 11:54:36 by paulohl          ###   ########.fr       */
+/*   Updated: 2020/12/07 13:09:14 by paulohl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,12 @@
 # define PHILOSOPHERS_H
 
 # include <sys/time.h>
+
+# define ACT_EAT	1
+# define ACT_SLEEP	2
+# define ACT_THINK	3
+# define ACT_DIE	4
+# define ACT_DONE	5
 
 typedef int	t_msec;
 
@@ -27,6 +33,7 @@ typedef struct		s_philosopher
 	int				eat_count;
 	int				id;
 	pthread_mutex_t	mutex_lock;
+	struct timeval	time_zero;
 }					t_philosopher;
 
 #endif
