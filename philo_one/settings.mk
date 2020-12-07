@@ -1,8 +1,8 @@
 ifndef SETTINGS_MK
 	SETTINGS_MK = 1
 
-NAME	= philosophers
-SRCS	= $Sphilosophers.c
+NAME	= philo_one
+SRCS	= $Smain.c
 
 CC		= gcc
 CFLAGS	+= -Wall -Wextra #-Werror

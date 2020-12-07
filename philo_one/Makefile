@@ -22,9 +22,7 @@ $O:
 $(OBJS): | $O
 
 $(OBJS): $O%.o: $S%
-	# @printf "Compiling $^: "
 	$(CC) $(CFLAGS) -c $< -o $@
-	# @echo "✓"
 
 $D:
 	@mkdir $@
@@ -35,7 +33,6 @@ $(DEPS): $D%.d: $S%
 	$(CC) $(CFLAGS) -MM -MF $@ -MT "$O$*.o $@" $<
 
 $(NAME): $(OBJS)
-	# @echo "Assembling $(NAME)"
 	$(CC) $(LDFLAGS) $^ -o $@
 
 clean:
@@ -47,8 +44,5 @@ fclean: clean
 	@$(RM) $(NAME)
 
 re: fclean all
-
-test: $(NAME)
-	./$(NAME)
 
 -include $(DEPS)
