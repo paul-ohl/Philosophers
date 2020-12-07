@@ -6,7 +6,7 @@
 /*   By: paulohl <pohl@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/06 13:34:54 by paulohl           #+#    #+#             */
-/*   Updated: 2020/12/06 19:45:47 by paulohl          ###   ########.fr       */
+/*   Updated: 2020/12/07 12:04:32 by paulohl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,13 @@ void	*start_philosophing(void *arg)
 {
 	struct timeval	time_of_death;
 	t_philosopher	*philosopher;
+	int				id;
 
 	philosopher = (t_philosopher *)arg;
+	pthread_mutex_lock(&philosopher->mutex_lock);
+	(philosopher->id)++;
+	id = philosopher->id;
+	pthread_mutex_unlock(&philosopher->mutex_lock);
 	gettimeofday(&time_of_death, NULL);
 	add_ms(&time_of_death, philosopher->time_to_die);
 	while (1)
@@ -73,17 +78,17 @@ void	*start_philosophing(void *arg)
 			usleep(10000);
 		if (!is_alive(time_of_death))
 		{
-			printf("Died\n");
+			printf("%d Died\n", id);
 			return (NULL);
 		}
 		philosopher->fork_count -= 2;
-		printf("Eat for %dsecs\n", philosopher->time_to_eat);
+		printf("%d Eat for %dsecs, fork_count: %d\n", id, philosopher->time_to_eat, philosopher->fork_count);
 		add_ms(&time_of_death, philosopher->time_to_die);
 		usleep(philosopher->time_to_eat * 1000);
 		philosopher->fork_count += 2;
-		printf("Sleep for %dsecs\n", philosopher->time_to_sleep);
+		printf("%d Sleep for %dsecs\n", id, philosopher->time_to_sleep);
 		usleep(philosopher->time_to_sleep * 1000);
-		printf("Thinking now...\n");
+		printf("%d Thinking now...\n", id);
 	}
 	return (NULL);
 }
@@ -99,6 +104,7 @@ int		valid_input(int argc, char **argv, t_philosopher *philo)
 	philo->time_to_sleep = atoi(argv[4]);
 	if (argc == 6)
 		philo->eat_count = atoi(argv[5]);
+	philo->id = 0;
 	return (1);
 }
 
@@ -110,12 +116,15 @@ int		main(int argc, char **argv)
 
 	if (!valid_input(argc, argv, &philosopher))
 		return (1);
+	if (pthread_mutex_init(&philosopher.mutex_lock, NULL) != 0)
+        return (2);
 	if (!(thread = malloc(sizeof(thread) * philosopher.philosopher_count)))
-		return (1);
+		return (3);
 	i = -1;
 	while (++i < philosopher.philosopher_count)
 		pthread_create(&thread[i], NULL, start_philosophing, &philosopher);
 	i = -1;
 	while (++i < philosopher.philosopher_count)
 		pthread_join(thread[i], NULL);
+	pthread_mutex_destroy(&philosopher.mutex_lock);
 }
