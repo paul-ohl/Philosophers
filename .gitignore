@@ -3,6 +3,3 @@ objs/
 deps/
 *test*
 a.out*
-philo_one
-philo_two
-philo_three
