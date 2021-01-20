@@ -5,7 +5,7 @@ NAME	= philo_one
 SRCS	= $Smain.c $Smake_action.c $Sphilo_checks.c
 
 CC		= gcc
-CFLAGS	+= -Wall -Wextra -Werror
+CFLAGS	+= -Wall -Wextra #-Werror
 LDFLAGS	+= 
 
 endif
