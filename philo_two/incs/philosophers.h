@@ -6,7 +6,7 @@
 /*   By: paulohl <pohl@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 09:01:55 by paulohl           #+#    #+#             */
-/*   Updated: 2020/12/15 11:12:58 by paulohl          ###   ########.fr       */
+/*   Updated: 2021/01/21 15:56:57 by paulohl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,8 @@
 # define ACT_DONE	5
 # define CHECK_FREQ 5
 
-typedef int	t_msec;
-typedef struct timeval	t_tv;
-typedef struct		s_philosopher
+typedef int			t_msec;
+typedef struct s_conf
 {
 	unsigned int	philosopher_count;
 	int				fork_count;
@@ -37,11 +36,13 @@ typedef struct		s_philosopher
 	int				id;
 	sem_t			*semaphore;
 	struct timeval	time_zero;
-}					t_philosopher;
+	int				is_over;
+}					t_conf;
 
-int					make_action(int action, int id, t_philosopher *philosopher);
-int					get_timestamp(struct timeval time_zero);
-int					can_eat(t_philosopher *philosopher);
-int					is_alive(t_tv time_of_death);
+int	make_action(int action, int id, t_conf *philosopher);
+int	get_timestamp(struct timeval time_zero);
+int	can_eat(t_conf *philosopher);
+int	is_alive(struct timeval time_of_death);
+int	get_time_to_wait(t_msec time_to_check, struct timeval time_of_death);
 
 #endif

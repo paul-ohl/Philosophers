@@ -3,19 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   make_action.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paulohl <pohl@student.42.fr>               +#+  +:+       +#+        */
+/*   By: paulohl <paulohl@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 10:19:11 by paulohl           #+#    #+#             */
-/*   Updated: 2020/12/11 11:00:20 by paulohl          ###   ########.fr       */
+/*   Updated: 2021/01/20 18:56:40 by paulohl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 #include <unistd.h>
+#include <stdio.h>
 
 #define LOG_LEN 500
 
-int		ft_nbrlen(unsigned int nbr)
+int	ft_nbrlen(unsigned int nbr)
 {
 	int		len;
 
@@ -30,7 +31,7 @@ int		ft_nbrlen(unsigned int nbr)
 	return (len);
 }
 
-void	itoa_in_str(char log[LOG_LEN], int i, unsigned timestamp)
+void	itoa_in_str(char log[LOG_LEN], int i, unsigned int timestamp)
 {
 	int		i_svg;
 
@@ -43,24 +44,28 @@ void	itoa_in_str(char log[LOG_LEN], int i, unsigned timestamp)
 	}
 }
 
-void	set_timestamp_id(char log[LOG_LEN], t_tv t_zero, int id, int len)
+void	set_timestamp_id(char log[LOG_LEN], struct timeval t_zero, int id, int len)
 {
 	int		i;
 	int		timestamp;
+	int		timestamp_len;
+	int		id_len;
 
 	i = -1;
 	timestamp = get_timestamp(t_zero);
-	while (++i < 10 - ft_nbrlen(timestamp))
+	timestamp_len = ft_nbrlen(timestamp);
+	id_len = ft_nbrlen(id);
+	while (++i < 10 - timestamp_len)
 		log[i] = '0';
 	itoa_in_str(log, i, timestamp);
 	i = 10;
-	while (++i < len - ft_nbrlen(id))
+	while (++i < len - id_len)
 		log[i] = '0';
 	itoa_in_str(log, i, id);
 	log[10] = ' ';
 }
 
-int		ft_strcpy(char *dst, const char *src)
+int	ft_strcpy(char *dst, const char *src)
 {
 	int		i;
 
@@ -74,27 +79,31 @@ int		ft_strcpy(char *dst, const char *src)
 	return (i);
 }
 
-int		make_action(int action, int id, t_philosopher *philosopher)
+int	make_action(const int action, int id, t_conf *philo)
 {
 	char	log[LOG_LEN];
-	int		len;
+	int		time_id_len;
+	int		log_len;
 
-	len = ft_nbrlen(philosopher->philosopher_count) + 11;
-	set_timestamp_id(log, philosopher->time_zero, id, len);
+	if (philo->is_over)
+		return (1);
+	time_id_len = ft_nbrlen(philo->philosopher_count) + 11;
+	log_len = time_id_len;
+	set_timestamp_id(log, philo->time_zero, id, time_id_len);
 	if (action == ACT_EAT)
 	{
-		len = ft_strcpy(log + 12, " has taken a fork\n");
-		write(1, log, len + 12);
-		len = ft_strcpy(log + 12, " is eating\n");
+		log_len += ft_strcpy(log + time_id_len, " has taken a fork\n");
+		write(1, log, log_len);
+		log_len = time_id_len + ft_strcpy(log + time_id_len, " is eating\n");
 	}
 	else if (action == ACT_SLEEP)
-		len = ft_strcpy(log + 12, " is sleeping\n");
+		log_len += ft_strcpy(log + time_id_len, " is sleeping\n");
 	else if (action == ACT_THINK)
-		len = ft_strcpy(log + 12, " is thinking\n");
+		log_len += ft_strcpy(log + time_id_len, " is thinking\n");
 	else if (action == ACT_DIE)
-		len = ft_strcpy(log + 12, " died\n");
+		log_len += ft_strcpy(log + time_id_len, " died\n");
 	else if (action == ACT_DONE)
-		len = ft_strcpy(log + 12, " is done eating\n");
-	write(1, log, len + 12);
+		log_len += ft_strcpy(log + time_id_len, " is done eating\n");
+	write(1, log, log_len);
 	return (0);
 }
