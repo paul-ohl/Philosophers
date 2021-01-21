@@ -6,7 +6,7 @@
 /*   By: paulohl <pohl@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/11 13:04:02 by paulohl           #+#    #+#             */
-/*   Updated: 2021/01/20 18:15:23 by paulohl          ###   ########.fr       */
+/*   Updated: 2021/01/21 15:47:42 by paulohl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,6 @@ int		is_alive(struct timeval time_of_death)
 		return (1);
 }
 
-#include <stdio.h>
-#include <stdlib.h>
-
 int	get_time_to_wait(t_msec time_to_check, struct timeval time_of_death)
 {
 	t_msec	tmp;
@@ -68,7 +65,6 @@ int	get_time_to_wait(t_msec time_to_check, struct timeval time_of_death)
 	gettimeofday(&current_time, NULL);
 	tmp = (death_svg.tv_sec - current_time.tv_sec) * 1000;
 	tmp += (death_svg.tv_usec - current_time.tv_usec) / 1000;
-	/* printf("current: %ld,%d\n  death: %ld,%d\nresult: %d\n", current_time.tv_sec, current_time.tv_usec, death_svg.tv_sec, death_svg.tv_usec, tmp); */
 	if (tmp < 0)
 		tmp = 0;
 	return (tmp * 1000);
