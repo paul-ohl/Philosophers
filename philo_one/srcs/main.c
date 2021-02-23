@@ -6,7 +6,7 @@
 /*   By: paulohl <paulohl@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/06 13:34:54 by paulohl           #+#    #+#             */
-/*   Updated: 2021/01/20 18:26:11 by paulohl          ###   ########.fr       */
+/*   Updated: 2021/02/10 09:58:43 by paulohl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,8 +121,6 @@ int	valid_input(int argc, char **argv, t_conf *philo)
 	philo->is_over = 0;
 	return (1);
 }
-
-#include <stdio.h>
 
 int	main(int argc, char **argv)
 {
