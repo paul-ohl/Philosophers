@@ -1,48 +1,39 @@
-S		= srcs/
-O		= objs/
-I		= incs/
-D		= deps/
+# Folders and Names
+NAME		= philo_one
+SRCSDIR		= srcs
+OBJSDIR		= objs
+INCLUDES	= incs
 
-CFLAGS	+= -I$I
+SRCS		= main.c philo_checks.c make_action.c
 
-include settings.mk
+# Compiler options
+CC			= gcc
+CFLAGS		= -Wall -Wextra -g3 #-fsanitize=address
 
-OBJS	= $(SRCS:$S%=$O%.o)
-DEPS	= $(SRCS:$S%=$D%.d)
+###################################################
+# The rest is done by the MakeFile automatically, #
+# you should not have to modify it				  #
+###################################################
 
-RM		= /bin/rm -rf
-
-.PHONY: all clean fclean re
+OBJS	= $(SRCS:%.c=$(OBJSDIR)/%.o)
 
 all: $(NAME)
 
-$O:
-	@mkdir $@
-
-$(OBJS): | $O
-
-$(OBJS): $O%.o: $S%
-	$(CC) $(CFLAGS) -c $< -o $@
-
-$D:
-	@mkdir $@
-
-$(DEPS): | $D
-
-$(DEPS): $D%.d: $S%
-	$(CC) $(CFLAGS) -MM -MF $@ -MT "$O$*.o $@" $<
-
 $(NAME): $(OBJS)
-	$(CC) $(LDFLAGS) $^ -o $@
+	@echo "Assembling $@"
+	@$(CC) $(CFLAGS) -o $@ $^
+
+$(OBJS): $(OBJSDIR)/%.o: $(SRCSDIR)/%.c
+	@mkdir -p $(@D)
+	@echo Compiling $<
+	@$(CC) $(CFLAGS) -I$(INCLUDES) -c $< -o $@
 
 clean:
-	@echo "Cleaning up... 🕸🧹"
-	@$(RM) $D $O
+	rm -rf $(OBJSDIR)
 
 fclean: clean
-	@echo "Everything!"
-	@$(RM) $(NAME)
+	rm -rf $(NAME)
 
 re: fclean all
 
--include $(DEPS)
+.PHONY: all clean fclean re test
