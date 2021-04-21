@@ -6,7 +6,7 @@
 /*   By: paulohl <pohl@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 18:11:45 by paulohl           #+#    #+#             */
-/*   Updated: 2021/04/07 18:12:15 by paulohl          ###   ########.fr       */
+/*   Updated: 2021/04/18 19:47:07 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,19 @@ struct timeval	add_ms(t_msec ms)
 		timestamp.tv_usec -= 1000000;
 	}
 	return (timestamp);
+}
+
+bool	is_alive(struct timeval time_of_death)
+{
+	struct timeval	current_time;
+
+	gettimeofday(&current_time, NULL);
+	if (current_time.tv_sec > time_of_death.tv_sec)
+		return (false);
+	else if (current_time.tv_sec < time_of_death.tv_sec)
+		return (true);
+	else if (current_time.tv_usec > time_of_death.tv_usec)
+		return (false);
+	else
+		return (true);
 }

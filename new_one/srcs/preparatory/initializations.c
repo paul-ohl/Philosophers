@@ -6,7 +6,7 @@
 /*   By: paulohl <pohl@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 15:59:39 by paulohl           #+#    #+#             */
-/*   Updated: 2021/04/12 14:01:55 by paulohl          ###   ########.fr       */
+/*   Updated: 2021/04/19 15:10:45 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,39 @@
 
 static bool	initialize_lock(t_config *config)
 {
-	return (pthread_mutex_init(&config->mutex_lock, NULL) == 0);
+	unsigned int	i;
+	int				err;
+
+	config->forks = malloc(sizeof(*config->forks) * config->philosopher_count);
+	i = 0;
+	err = pthread_mutex_init(&(config->main_mutex), NULL);
+	while (i < config->philosopher_count)
+	{
+		err = pthread_mutex_init(&(config->forks[i]), NULL);
+		if (err)
+		{
+			printf("Error with mutex initialization\n");
+			while (i--)
+				pthread_mutex_destroy(&(config->forks[i]));
+			free(config->forks);
+			config->forks = NULL;
+			return (free_config(config, NULL));
+		}
+		i++;
+	}
+	return (true);
+}
+
+void			init_mallocs(t_config *config)
+{
+	config->time_of_death = ft_calloc(sizeof(*config->time_of_death),
+			config->philosopher_count + 1);
+	if (!config->time_of_death)
+		return ;
+	config->is_eating = ft_calloc(sizeof(*config->is_eating),
+			config->philosopher_count);
+	if (!config->is_eating)
+		return ;
 }
 
 static t_config	*initialize_struct(int argc, char **argv)
@@ -34,13 +66,13 @@ static t_config	*initialize_struct(int argc, char **argv)
 		config->eat_count = ft_atoi(argv[5]);
 	else
 		config->eat_count = -1;
+	init_mallocs(config);
+	if (!config->time_of_death || !config->is_eating)
+	{
+		free_config(config, NULL);
+		return (NULL);
+	}
 	config->id = 0;
-	/* config->is_eating = malloc(sizeof(int) * config->philosopher_count + 1); */
-	/* if (!config->is_eating) */
-	/* { */
-	/* 	free(config); */
-	/* 	return (NULL); */
-	/* } */
 	config->is_over = false;
 	return (config);
 }
@@ -53,16 +85,10 @@ bool	initialization(int ac, char **av, t_config **cfg, pthread_t **threads)
 	if (!is_input_valid(*cfg))
 		return (false);
 	if (!initialize_lock(*cfg))
-	{
-		free(*cfg);
 		return (false);
-	}
 	*threads = malloc(sizeof(**threads) * (*cfg)->philosopher_count);
 	if (!*threads)
-	{
-		free(*cfg);
-		return (false);
-	}
+		return (free_config(*cfg, NULL));
 	gettimeofday(&(*cfg)->time_zero, NULL);
 	return (true);
 }

@@ -6,7 +6,7 @@
 /*   By: paulohl <pohl@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 09:01:55 by paulohl           #+#    #+#             */
-/*   Updated: 2021/04/12 13:58:21 by paulohl          ###   ########.fr       */
+/*   Updated: 2021/04/19 14:31:51 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 enum	e_actions
 {
 	ACT_ERROR = 0,
+	ACT_TAKE_FORK,
 	ACT_EAT,
 	ACT_SLEEP,
 	ACT_THINK,
@@ -36,16 +37,19 @@ typedef struct s_config
 	t_msec			time_to_die;
 	t_msec			time_to_eat;
 	t_msec			time_to_sleep;
-	/* int				*is_eating; */
 	int				eat_count;
 	pthread_mutex_t	*forks;
+	pthread_mutex_t	main_mutex;
 	struct timeval	time_zero;
+	struct timeval	*time_of_death;
+	bool			*is_eating;
 	bool			is_over;
 	int				id;
 }				t_config;
 
 /* Output */
 bool			print_error(const char *err);
+void			print_status(t_config *config, unsigned int id, const int act);
 
 /* Preparatory */
 bool			is_input_valid(t_config *config);
@@ -53,12 +57,15 @@ bool			is_argcount_valid(int argc);
 bool			initialization(int ac, char **av, t_config **c, pthread_t **t);
 
 /* Thread actions */
-void			stop_execution(pthread_mutex_t mutex_lock);
-void			resume_execution(pthread_mutex_t mutex_lock);
+void			stop_execution(pthread_mutex_t *mutex_lock);
+void			resume_execution(pthread_mutex_t *mutex_lock);
 void			start_threads(t_config *cfg, pthread_t *t, pthread_t *ctrl);
 void			catch_threads(pthread_t *t, pthread_t ctrl, int philo_count);
+void			take_forks(t_config *config, unsigned int id);
+void			drop_forks(t_config *config, unsigned int id);
 
 /* Utils */
 struct timeval	add_ms(t_msec ms);
+bool			free_config(t_config *config, pthread_t *threads);
 
 #endif

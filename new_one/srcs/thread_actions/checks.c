@@ -6,42 +6,11 @@
 /*   By: paulohl <pohl@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/11 13:04:02 by paulohl           #+#    #+#             */
-/*   Updated: 2021/04/07 19:41:53 by paulohl          ###   ########.fr       */
+/*   Updated: 2021/04/19 09:24:29 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_one.h"
-
-bool	can_eat(t_config *config, unsigned int id)
-{
-	unsigned int	previous;
-	unsigned int	next;
-
-	previous = id - 1;
-	next = id + 1;
-	if (id == 1)
-		previous = config->philosopher_count;
-	else if (id == config->philosopher_count)
-		next = 1;
-	if (!config->is_eating[previous] && !config->is_eating[next])
-		return (true);
-	return (false);
-}
-
-bool	is_alive(struct timeval time_of_death)
-{
-	struct timeval	current_time;
-
-	gettimeofday(&current_time, NULL);
-	if (current_time.tv_sec > time_of_death.tv_sec)
-		return (false);
-	else if (current_time.tv_sec < time_of_death.tv_sec)
-		return (true);
-	else if (current_time.tv_usec > time_of_death.tv_usec)
-		return (false);
-	else
-		return (true);
-}
 
 int	get_time_to_wait(t_msec time_to_check, struct timeval time_of_death)
 {

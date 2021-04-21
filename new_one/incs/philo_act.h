@@ -6,7 +6,7 @@
 /*   By: paulohl <pohl@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 14:34:41 by paulohl           #+#    #+#             */
-/*   Updated: 2021/04/07 19:43:10 by paulohl          ###   ########.fr       */
+/*   Updated: 2021/04/19 09:26:38 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 typedef struct	s_local
 {
-	struct timeval	time_of_death;
 	unsigned int	id;
 	int				eat_count;
 }	t_local;

@@ -6,65 +6,73 @@
 /*   By: paulohl <pohl@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 14:27:07 by paulohl           #+#    #+#             */
-/*   Updated: 2021/04/09 18:15:25 by paulohl          ###   ########.fr       */
+/*   Updated: 2021/04/19 15:17:09 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <unistd.h>
 #include "philo_one.h"
 #include "philo_act.h"
 
-static void	init_local_variables(t_config *config, t_local *local)
+static void	init_variables(t_config *config, t_local *local)
 {
-	local->time_of_death = add_ms(config->time_to_die);
 	local->eat_count = config->eat_count;
-	stop_execution(config->mutex_lock);
+	pthread_mutex_lock(&config->main_mutex);
 	(config->id)++;
 	local->id = config->id;
-	resume_execution(config->mutex_lock);
+	config->is_eating[local->id - 1] = false;
+	config->time_of_death[local->id] = add_ms(config->time_to_die);
+	pthread_mutex_unlock(&config->main_mutex);
 }
 
-static bool	execute_actions(t_config *config, t_local *local)
+void	philo_eat(t_config *config, t_local *local)
 {
-	if (print_action(ACT_EAT, config, local))
-		return (false);
-	*t_death = add_ms(philo->time_to_die);
-	usleep(philo->time_to_eat * 1000);
-	pthread_mutex_lock(&philo->mutex_lock);
-	philo->is_eating[id] = 0;
-	pthread_mutex_unlock(&philo->mutex_lock);
-	(*eat_count)--;
-	if (!(*eat_count))
+	if (!config->is_over)
 	{
-		make_action(ACT_DONE, id, philo);
-		return (0);
+		take_forks(config, local->id);
+		print_status(config, local->id, ACT_EAT);
+		config->time_of_death[local->id] = add_ms(config->time_to_die);
+		usleep(config->time_to_eat * 1000);
+		(local->eat_count)--;
+		drop_forks(config, local->id);
 	}
-	if (make_action(ACT_SLEEP, id, philo))
-		return (0);
-	usleep(get_time_to_wait(philo->time_to_sleep, *t_death));
-	if (!is_alive(*t_death))
-		return (1);
-	if (make_action(ACT_THINK, id, philo))
-		return (0);
-	return (true);
+}
+
+void	philo_sleep(t_config *config, t_local *local)
+{
+	if (!config->is_over)
+	{
+		print_status(config, local->id, ACT_SLEEP);
+		usleep(config->time_to_sleep * 1000);
+	}
+}
+
+void	philo_think(t_config *config, t_local *local)
+{
+	if (!config->is_over)
+	{
+		print_status(config, local->id, ACT_THINK);
+	}
 }
 
 void	*philo_act(t_config *config)
 {
 	t_local	local;
 
-	init_local_variables(config, &local);
-	printf("id: %d\n", local.id);
-	while (is_alive(local.time_of_death))
+	init_variables(config, &local);
+	if (local.id % 2 == 0)
+		usleep(100);
+	while (!config->is_over && local.eat_count != 0)
 	{
-		stop_execution(config->mutex_lock);
-		if (can_eat(config, local.id))
-		{
-			config->is_eating[local.id] = 1;
-			resume_execution(config->mutex_lock);
-			if (!execute_actions(config, &local))
-				return (NULL);
-		}
-		resume_execution(config->mutex_lock);
+		philo_eat(config, &local);
+		philo_sleep(config, &local);
+		philo_think(config, &local);
+	}
+	if (local.eat_count == 0)
+	{
+		print_status(config, local.id, ACT_DONE);
+		config->time_of_death[local.id].tv_sec = 0;
+		config->time_of_death[local.id].tv_usec = 0;
 	}
 	return (NULL);
 }
