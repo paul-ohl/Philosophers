@@ -14,7 +14,7 @@ SRCS		= main.c \
 
 # Compiler options
 CC			= gcc
-CFLAGS		= -Wall -Wextra -g3 -pthread
+CFLAGS		= -Wall -Wextra -g3
 LDFLAGS		= -lpthread
 
 ###################################################
