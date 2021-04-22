@@ -14,7 +14,8 @@ SRCS		= main.c \
 
 # Compiler options
 CC			= gcc
-CFLAGS		= -Wall -Wextra -g3 -fsanitize=address
+CFLAGS		= -Wall -Wextra -g3 -pthread
+LDFLAGS		= -lpthread
 
 ###################################################
 # The rest is done by the MakeFile automatically, #
@@ -27,7 +28,7 @@ all: $(NAME)
 
 $(NAME): $(OBJS) $(EXTLIB)/$(EXTLIB).a
 	@echo "Assembling $@"
-	$(CC) $(CFLAGS) -o $@ $^
+	$(CC) -o $@ $^ $(LDFLAGS)
 
 $(OBJS): $(OBJSDIR)/%.o: $(SRCSDIR)/%.c
 	@mkdir -p $(@D)
