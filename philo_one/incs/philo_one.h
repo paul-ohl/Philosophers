@@ -6,7 +6,7 @@
 /*   By: paulohl <pohl@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 09:01:55 by paulohl           #+#    #+#             */
-/*   Updated: 2021/04/19 14:31:51 by ft               ###   ########.fr       */
+/*   Updated: 2021/04/22 10:56:12 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ enum	e_actions
 typedef int	t_msec;
 typedef struct s_config
 {
-	unsigned int	philosopher_count;
+	int				philosopher_count;
 	t_msec			time_to_die;
 	t_msec			time_to_eat;
 	t_msec			time_to_sleep;
@@ -49,7 +49,7 @@ typedef struct s_config
 
 /* Output */
 bool			print_error(const char *err);
-void			print_status(t_config *config, unsigned int id, const int act);
+void			print_status(t_config *config, int id, const int act);
 
 /* Preparatory */
 bool			is_input_valid(t_config *config);
@@ -61,8 +61,8 @@ void			stop_execution(pthread_mutex_t *mutex_lock);
 void			resume_execution(pthread_mutex_t *mutex_lock);
 void			start_threads(t_config *cfg, pthread_t *t, pthread_t *ctrl);
 void			catch_threads(pthread_t *t, pthread_t ctrl, int philo_count);
-void			take_forks(t_config *config, unsigned int id);
-void			drop_forks(t_config *config, unsigned int id);
+void			take_forks(t_config *config, int id);
+void			drop_forks(t_config *config, int id);
 
 /* Utils */
 struct timeval	add_ms(t_msec ms);

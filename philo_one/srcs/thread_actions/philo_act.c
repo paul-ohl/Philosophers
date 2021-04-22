@@ -6,7 +6,7 @@
 /*   By: paulohl <pohl@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 14:27:07 by paulohl           #+#    #+#             */
-/*   Updated: 2021/04/19 15:17:09 by ft               ###   ########.fr       */
+/*   Updated: 2021/04/22 10:55:38 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ static void	init_variables(t_config *config, t_local *local)
 	pthread_mutex_lock(&config->main_mutex);
 	(config->id)++;
 	local->id = config->id;
-	config->is_eating[local->id - 1] = false;
 	config->time_of_death[local->id] = add_ms(config->time_to_die);
 	pthread_mutex_unlock(&config->main_mutex);
 }
@@ -60,8 +59,8 @@ void	*philo_act(t_config *config)
 	t_local	local;
 
 	init_variables(config, &local);
-	if (local.id % 2 == 0)
-		usleep(100);
+	/* if (local.id % 2 == 0) */
+	/* 	usleep(100); */
 	while (!config->is_over && local.eat_count != 0)
 	{
 		philo_eat(config, &local);

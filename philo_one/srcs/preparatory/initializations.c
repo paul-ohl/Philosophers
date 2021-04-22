@@ -6,7 +6,7 @@
 /*   By: paulohl <pohl@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 15:59:39 by paulohl           #+#    #+#             */
-/*   Updated: 2021/04/19 15:10:45 by ft               ###   ########.fr       */
+/*   Updated: 2021/04/22 10:57:14 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 
 static bool	initialize_lock(t_config *config)
 {
-	unsigned int	i;
-	int				err;
+	int		i;
+	int		err;
 
 	config->forks = malloc(sizeof(*config->forks) * config->philosopher_count);
 	i = 0;

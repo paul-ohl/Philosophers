@@ -6,7 +6,7 @@
 /*   By: paulohl <pohl@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 14:09:33 by paulohl           #+#    #+#             */
-/*   Updated: 2021/04/19 15:16:26 by ft               ###   ########.fr       */
+/*   Updated: 2021/04/22 10:57:25 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 void	start_threads(t_config *config, pthread_t *threads, pthread_t *control)
 {
-	unsigned int	i;
+	int		i;
 
 	i = -1;
 	while (++i < config->philosopher_count)

@@ -6,14 +6,14 @@
 /*   By: paulohl <pohl@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 18:38:27 by paulohl           #+#    #+#             */
-/*   Updated: 2021/04/19 14:24:41 by ft               ###   ########.fr       */
+/*   Updated: 2021/04/22 10:58:19 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include "philo_one.h"
 
-static bool	is_dead(struct timeval time_of_death, unsigned int *finish_count)
+static bool	is_dead(struct timeval time_of_death, int *finish_count)
 {
 	struct timeval	time_now;
 
@@ -35,8 +35,8 @@ static bool	is_dead(struct timeval time_of_death, unsigned int *finish_count)
 
 void	*controller_act(t_config *config)
 {
-	unsigned int	philosopher_id;
-	unsigned int	finish_count;
+	int	philosopher_id;
+	int	finish_count;
 
 	usleep(100);
 	while (!config->is_over && finish_count < config->philosopher_count)

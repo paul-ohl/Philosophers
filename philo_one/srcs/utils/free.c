@@ -6,7 +6,7 @@
 /*   By: ft <marvin@42.fr>                          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/18 19:17:50 by ft                #+#    #+#             */
-/*   Updated: 2021/04/19 15:05:53 by ft               ###   ########.fr       */
+/*   Updated: 2021/04/22 10:57:42 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 bool	free_config(t_config *config, pthread_t *threads)
 {
-	unsigned int	i;
+	int	i;
 
 	if (config)
 	{

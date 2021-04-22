@@ -6,7 +6,7 @@
 /*   By: ft <marvin@42.fr>                          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 09:31:19 by ft                #+#    #+#             */
-/*   Updated: 2021/04/19 14:02:33 by ft               ###   ########.fr       */
+/*   Updated: 2021/04/22 10:56:55 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int		set_action(char log[LOG_LEN], int offset, const int action)
 	return (log_len);
 }
 
-void	print_status(t_config *config, unsigned int id, const int action)
+void	print_status(t_config *config, int id, const int action)
 {
 	char	log[LOG_LEN];
 	int		log_len;
