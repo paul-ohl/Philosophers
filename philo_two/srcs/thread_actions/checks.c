@@ -6,11 +6,11 @@
 /*   By: paulohl <pohl@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/11 13:04:02 by paulohl           #+#    #+#             */
-/*   Updated: 2021/04/19 09:24:29 by ft               ###   ########.fr       */
+/*   Updated: 2021/04/22 12:44:08 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_one.h"
+#include "philo_two.h"
 
 int	get_time_to_wait(t_msec time_to_check, struct timeval time_of_death)
 {

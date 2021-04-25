@@ -6,11 +6,11 @@
 /*   By: paulohl <pohl@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 14:09:33 by paulohl           #+#    #+#             */
-/*   Updated: 2021/04/22 10:57:25 by ft               ###   ########.fr       */
+/*   Updated: 2021/04/22 12:44:19 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_one.h"
+#include "philo_two.h"
 #include "philo_act.h"
 
 void	start_threads(t_config *config, pthread_t *threads, pthread_t *control)

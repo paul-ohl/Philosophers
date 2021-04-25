@@ -6,49 +6,35 @@
 /*   By: paulohl <pohl@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 15:59:39 by paulohl           #+#    #+#             */
-/*   Updated: 2021/04/22 10:57:14 by ft               ###   ########.fr       */
+/*   Updated: 2021/04/24 19:24:28 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <string.h>
 #include <stdlib.h>
+#include <errno.h>
+#include <fcntl.h>
 #include "libft.h"
-#include "philo_one.h"
+#include "philo_two.h"
 
 static bool	initialize_lock(t_config *config)
 {
-	int		i;
-	int		err;
-
-	config->forks = malloc(sizeof(*config->forks) * config->philosopher_count);
-	i = 0;
-	err = pthread_mutex_init(&(config->main_mutex), NULL);
-	while (i < config->philosopher_count)
+	sem_unlink(FORK_SEMAPHORE_NAME);
+	config->fork_semaphore = sem_open(FORK_SEMAPHORE_NAME, O_CREAT, 0644,
+			config->philosopher_count);
+	if (config->fork_semaphore == NULL)
 	{
-		err = pthread_mutex_init(&(config->forks[i]), NULL);
-		if (err)
-		{
-			printf("Error with mutex initialization\n");
-			while (i--)
-				pthread_mutex_destroy(&(config->forks[i]));
-			free(config->forks);
-			config->forks = NULL;
-			return (free_config(config, NULL));
-		}
-		i++;
+		free_config(config, NULL);
+		return (false);
+	}
+	sem_unlink(MAIN_SEMAPHORE_NAME);
+	config->main_semaphore = sem_open(MAIN_SEMAPHORE_NAME, O_CREAT, 0644, 1);
+	if (config->main_semaphore == NULL)
+	{
+		free_config(config, NULL);
+		return (false);
 	}
 	return (true);
-}
-
-void			init_mallocs(t_config *config)
-{
-	config->time_of_death = ft_calloc(sizeof(*config->time_of_death),
-			config->philosopher_count + 1);
-	if (!config->time_of_death)
-		return ;
-	config->is_eating = ft_calloc(sizeof(*config->is_eating),
-			config->philosopher_count);
-	if (!config->is_eating)
-		return ;
 }
 
 static t_config	*initialize_struct(int argc, char **argv)
@@ -58,6 +44,7 @@ static t_config	*initialize_struct(int argc, char **argv)
 	config = malloc(sizeof(*config));
 	if (!config)
 		return (NULL);
+	config = memset(config, 0, sizeof(*config));
 	config->philosopher_count = ft_atoi(argv[1]);
 	config->time_to_die = ft_atoi(argv[2]);
 	config->time_to_eat = ft_atoi(argv[3]);
@@ -66,14 +53,16 @@ static t_config	*initialize_struct(int argc, char **argv)
 		config->eat_count = ft_atoi(argv[5]);
 	else
 		config->eat_count = -1;
-	init_mallocs(config);
-	if (!config->time_of_death || !config->is_eating)
+	config->time_of_death = ft_calloc(sizeof(*config->time_of_death),
+			config->philosopher_count + 1);
+	if (!config->time_of_death)
 	{
 		free_config(config, NULL);
 		return (NULL);
 	}
 	config->id = 0;
 	config->is_over = false;
+	config->fork_count = config->philosopher_count;
 	return (config);
 }
 

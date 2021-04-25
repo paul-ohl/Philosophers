@@ -6,22 +6,22 @@
 /*   By: paulohl <pohl@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 14:27:07 by paulohl           #+#    #+#             */
-/*   Updated: 2021/04/22 10:55:38 by ft               ###   ########.fr       */
+/*   Updated: 2021/04/25 15:41:33 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
-#include "philo_one.h"
+#include "philo_two.h"
 #include "philo_act.h"
 
 static void	init_variables(t_config *config, t_local *local)
 {
 	local->eat_count = config->eat_count;
-	pthread_mutex_lock(&config->main_mutex);
+	sem_wait(config->main_semaphore);
 	(config->id)++;
 	local->id = config->id;
 	config->time_of_death[local->id] = add_ms(config->time_to_die);
-	pthread_mutex_unlock(&config->main_mutex);
+	sem_post(config->main_semaphore);
 }
 
 void	philo_eat(t_config *config, t_local *local)
@@ -33,7 +33,7 @@ void	philo_eat(t_config *config, t_local *local)
 		config->time_of_death[local->id] = add_ms(config->time_to_die);
 		usleep(config->time_to_eat * 1000);
 		(local->eat_count)--;
-		drop_forks(config, local->id);
+		drop_forks(config);
 	}
 }
 
@@ -48,10 +48,7 @@ void	philo_sleep(t_config *config, t_local *local)
 
 void	philo_think(t_config *config, t_local *local)
 {
-	if (!config->is_over)
-	{
-		print_status(config, local->id, ACT_THINK);
-	}
+	print_status(config, local->id, ACT_THINK);
 }
 
 void	*philo_act(t_config *config)
@@ -59,13 +56,12 @@ void	*philo_act(t_config *config)
 	t_local	local;
 
 	init_variables(config, &local);
-	/* if (local.id % 2 == 0) */
-	/* 	usleep(100); */
 	while (!config->is_over && local.eat_count != 0)
 	{
 		philo_eat(config, &local);
 		philo_sleep(config, &local);
 		philo_think(config, &local);
+		usleep(1000);
 	}
 	if (local.eat_count == 0)
 	{
