@@ -6,7 +6,7 @@
 /*   By: paulohl <pohl@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 09:01:55 by paulohl           #+#    #+#             */
-/*   Updated: 2021/04/25 15:54:58 by ft               ###   ########.fr       */
+/*   Updated: 2021/04/25 16:31:38 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 
 # define MAIN_SEMAPHORE_NAME "main_semaphore"
 # define FORK_SEMAPHORE_NAME "fork_semaphore"
+# define OUTPUT_SEMAPHORE_NAME "output_semaphore"
 
 enum	e_actions
 {
@@ -44,6 +45,7 @@ typedef struct s_config
 	struct timeval	*time_of_death;
 	sem_t			*fork_semaphore;
 	sem_t			*main_semaphore;
+	sem_t			*output_semaphore;
 	bool			is_over;
 	int				id;
 }				t_config;

@@ -6,7 +6,7 @@
 /*   By: ft <marvin@42.fr>                          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/18 19:17:50 by ft                #+#    #+#             */
-/*   Updated: 2021/04/25 15:46:25 by ft               ###   ########.fr       */
+/*   Updated: 2021/04/25 16:33:27 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ bool	free_config(t_config *config, pthread_t *threads)
 			sem_unlink(MAIN_SEMAPHORE_NAME);
 		if (config->fork_semaphore)
 			sem_unlink(FORK_SEMAPHORE_NAME);
+		if (config->output_semaphore)
+			sem_unlink(OUTPUT_SEMAPHORE_NAME);
 		if (config->time_of_death)
 			free(config->time_of_death);
 		free(config);

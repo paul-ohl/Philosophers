@@ -6,7 +6,7 @@
 /*   By: paulohl <pohl@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 15:59:39 by paulohl           #+#    #+#             */
-/*   Updated: 2021/04/25 15:56:07 by ft               ###   ########.fr       */
+/*   Updated: 2021/04/25 16:32:49 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,14 @@ static bool	initialize_lock(t_config *config)
 	sem_unlink(MAIN_SEMAPHORE_NAME);
 	config->main_semaphore = sem_open(MAIN_SEMAPHORE_NAME, O_CREAT, 0644, 1);
 	if (config->main_semaphore == NULL)
+	{
+		free_config(config, NULL);
+		return (false);
+	}
+	sem_unlink(OUTPUT_SEMAPHORE_NAME);
+	config->output_semaphore = sem_open(OUTPUT_SEMAPHORE_NAME, O_CREAT, 0644,
+			1);
+	if (config->output_semaphore == NULL)
 	{
 		free_config(config, NULL);
 		return (false);

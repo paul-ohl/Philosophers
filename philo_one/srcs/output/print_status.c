@@ -6,7 +6,7 @@
 /*   By: ft <marvin@42.fr>                          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 09:31:19 by ft                #+#    #+#             */
-/*   Updated: 2021/04/22 10:56:55 by ft               ###   ########.fr       */
+/*   Updated: 2021/04/25 16:30:48 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,10 @@ void	print_status(t_config *config, int id, const int action)
 	char	log[LOG_LEN];
 	int		log_len;
 
+	log_len = set_timestamp(log, config->time_zero);
+	log_len += write_nb_to_str(log + log_len, id,
+			ft_intlen(config->philosopher_count));
+	log_len += set_action(log, log_len, action);
 	if (!config->is_over)
-	{
-		log_len = set_timestamp(log, config->time_zero);
-		log_len += write_nb_to_str(log + log_len, id,
-				ft_intlen(config->philosopher_count));
-		log_len += set_action(log, log_len, action);
-		/* printf("%d %d %d %d %d\n", config->is_eating[1], config->is_eating[2], config->is_eating[3], config->is_eating[4], config->is_eating[5]); */
 		write(1, log, log_len);
-	}
 }
