@@ -6,7 +6,7 @@
 /*   By: paulohl <pohl@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 15:59:39 by paulohl           #+#    #+#             */
-/*   Updated: 2021/04/24 19:24:28 by ft               ###   ########.fr       */
+/*   Updated: 2021/04/25 15:56:07 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ static t_config	*initialize_struct(int argc, char **argv)
 	}
 	config->id = 0;
 	config->is_over = false;
-	config->fork_count = config->philosopher_count;
 	return (config);
 }
 

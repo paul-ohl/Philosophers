@@ -6,7 +6,7 @@
 /*   By: paulohl <pohl@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 14:27:07 by paulohl           #+#    #+#             */
-/*   Updated: 2021/04/25 15:41:33 by ft               ###   ########.fr       */
+/*   Updated: 2021/04/25 15:52:57 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	*philo_act(t_config *config)
 	t_local	local;
 
 	init_variables(config, &local);
+	usleep(config->time_to_eat * (local.id % 2) / 2);
 	while (!config->is_over && local.eat_count != 0)
 	{
 		philo_eat(config, &local);

@@ -6,7 +6,7 @@
 /*   By: paulohl <pohl@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 09:01:55 by paulohl           #+#    #+#             */
-/*   Updated: 2021/04/24 19:25:05 by ft               ###   ########.fr       */
+/*   Updated: 2021/04/25 15:54:58 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ typedef struct s_config
 	struct timeval	*time_of_death;
 	sem_t			*fork_semaphore;
 	sem_t			*main_semaphore;
-	int				fork_count;
 	bool			is_over;
 	int				id;
 }				t_config;
