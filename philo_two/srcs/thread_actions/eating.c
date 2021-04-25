@@ -6,7 +6,7 @@
 /*   By: ft <marvin@42.fr>                          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 08:23:15 by ft                #+#    #+#             */
-/*   Updated: 2021/04/25 15:55:58 by ft               ###   ########.fr       */
+/*   Updated: 2021/04/25 16:15:32 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,12 @@
 
 void	take_forks(t_config *config, int id)
 {
+	sem_wait(config->main_semaphore);
+	sem_wait(config->fork_semaphore);
+	print_status(config, id, ACT_TAKE_FORK);
+	sem_wait(config->fork_semaphore);
+	print_status(config, id, ACT_TAKE_FORK);
 	sem_post(config->main_semaphore);
-	sem_wait(config->fork_semaphore);
-	print_status(config, id, ACT_TAKE_FORK);
-	sem_wait(config->fork_semaphore);
-	print_status(config, id, ACT_TAKE_FORK);
 }
 
 void	drop_forks(t_config *config)
