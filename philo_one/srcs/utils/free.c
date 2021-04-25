@@ -6,7 +6,7 @@
 /*   By: ft <marvin@42.fr>                          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/18 19:17:50 by ft                #+#    #+#             */
-/*   Updated: 2021/04/22 10:57:42 by ft               ###   ########.fr       */
+/*   Updated: 2021/04/25 16:13:02 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ bool	free_config(t_config *config, pthread_t *threads)
 		}
 		if (config->time_of_death)
 			free(config->time_of_death);
-		if (config->is_eating)
-			free(config->is_eating);
 		free(config);
 	}
 	if (threads)

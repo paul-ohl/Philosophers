@@ -6,7 +6,7 @@
 /*   By: paulohl <pohl@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 15:59:39 by paulohl           #+#    #+#             */
-/*   Updated: 2021/04/22 10:57:14 by ft               ###   ########.fr       */
+/*   Updated: 2021/04/25 16:12:36 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,6 @@ static bool	initialize_lock(t_config *config)
 	return (true);
 }
 
-void			init_mallocs(t_config *config)
-{
-	config->time_of_death = ft_calloc(sizeof(*config->time_of_death),
-			config->philosopher_count + 1);
-	if (!config->time_of_death)
-		return ;
-	config->is_eating = ft_calloc(sizeof(*config->is_eating),
-			config->philosopher_count);
-	if (!config->is_eating)
-		return ;
-}
-
 static t_config	*initialize_struct(int argc, char **argv)
 {
 	t_config	*config;
@@ -66,8 +54,9 @@ static t_config	*initialize_struct(int argc, char **argv)
 		config->eat_count = ft_atoi(argv[5]);
 	else
 		config->eat_count = -1;
-	init_mallocs(config);
-	if (!config->time_of_death || !config->is_eating)
+	config->time_of_death = ft_calloc(sizeof(*config->time_of_death),
+			config->philosopher_count + 1);
+	if (!config->time_of_death)
 	{
 		free_config(config, NULL);
 		return (NULL);

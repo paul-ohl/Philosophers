@@ -6,7 +6,7 @@
 /*   By: paulohl <pohl@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 09:01:55 by paulohl           #+#    #+#             */
-/*   Updated: 2021/04/22 10:56:12 by ft               ###   ########.fr       */
+/*   Updated: 2021/04/25 16:12:51 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ typedef struct s_config
 	pthread_mutex_t	main_mutex;
 	struct timeval	time_zero;
 	struct timeval	*time_of_death;
-	bool			*is_eating;
 	bool			is_over;
 	int				id;
 }				t_config;
