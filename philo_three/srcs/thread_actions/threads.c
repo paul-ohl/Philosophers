@@ -6,21 +6,30 @@
 /*   By: paulohl <pohl@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 14:09:33 by paulohl           #+#    #+#             */
-/*   Updated: 2021/04/22 12:44:19 by ft               ###   ########.fr       */
+/*   Updated: 2021/04/26 14:33:36 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <unistd.h>
 #include "philo_two.h"
 #include "philo_act.h"
 
-void	start_threads(t_config *config, pthread_t *threads, pthread_t *control)
+bool	start_threads(t_config *config, int count)
 {
-	int		i;
+	pid_t	pid;
 
-	i = -1;
-	while (++i < config->philosopher_count)
-		pthread_create(&(threads[i]), NULL, (void*(*)(void*))philo_act, config);
-	pthread_create(control, NULL, (void*(*)(void*))controller_act, config);
+	pid = fork();
+	if (pid == -1)
+		return (false);
+	else if (pid == 0)
+	{
+		philo_act(config);
+	}
+	else if (count > 0)
+	{
+		return (start_threads(config, count - 1))
+	}
+	return (true);
 }
 
 void	catch_threads(pthread_t *threads, pthread_t control, int philo_count)
