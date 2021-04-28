@@ -1,17 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_two.h                                        :+:      :+:    :+:   */
+/*   philo_three.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: paulohl <pohl@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 09:01:55 by paulohl           #+#    #+#             */
-/*   Updated: 2021/04/25 16:31:38 by ft               ###   ########.fr       */
+/*   Updated: 2021/04/28 11:39:33 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_TWO_H
 # define PHILO_TWO_H
+
+#include <stdio.h>
 
 # include <sys/time.h>
 # include <pthread.h>
@@ -46,8 +48,9 @@ typedef struct s_config
 	sem_t			*fork_semaphore;
 	sem_t			*main_semaphore;
 	sem_t			*output_semaphore;
-	bool			is_over;
+	pid_t			*pids;
 	int				id;
+	bool			is_over;
 }				t_config;
 
 /* Output */
@@ -57,18 +60,18 @@ void			print_status(t_config *config, int id, const int act);
 /* Preparatory */
 bool			is_input_valid(t_config *config);
 bool			is_argcount_valid(int argc);
-bool			initialization(int ac, char **av, t_config **c, pthread_t **t);
+bool			initialization(int ac, char **av, t_config **c);
 
 /* Thread actions */
 void			stop_execution(pthread_mutex_t *mutex_lock);
 void			resume_execution(pthread_mutex_t *mutex_lock);
-void			start_threads(t_config *cfg, pthread_t *t, pthread_t *ctrl);
-void			catch_threads(pthread_t *t, pthread_t ctrl, int philo_count);
+bool			start_threads(t_config *cfg);
+void			kill_threads(t_config *config);
 void			take_forks(t_config *config, int id);
 void			drop_forks(t_config *config);
 
 /* Utils */
 struct timeval	add_ms(t_msec ms);
-bool			free_config(t_config *config, pthread_t *threads);
+bool			free_config(t_config *config);
 
 #endif

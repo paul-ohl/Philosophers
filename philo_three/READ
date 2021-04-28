@@ -1,3 +1,0 @@
-Put the fork in a function that calls itself if it is in the parent fork (until
-it reaches philosopher_count) and calls the philo_act function if it is in the
-child fork.

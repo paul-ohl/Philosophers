@@ -6,13 +6,13 @@
 /*   By: ft <marvin@42.fr>                          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 09:31:19 by ft                #+#    #+#             */
-/*   Updated: 2021/04/25 16:26:12 by ft               ###   ########.fr       */
+/*   Updated: 2021/04/27 10:44:12 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include "libft.h"
-#include "philo_two.h"
+#include "philo_three.h"
 
 #define LOG_LEN 100
 

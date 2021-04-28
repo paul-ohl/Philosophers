@@ -6,22 +6,25 @@
 /*   By: paulohl <pohl@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/27 17:55:59 by paulohl           #+#    #+#             */
-/*   Updated: 2021/04/22 12:44:30 by ft               ###   ########.fr       */
+/*   Updated: 2021/04/28 11:36:47 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_two.h"
+#include <sys/wait.h>
+#include "philo_three.h"
 
 int		main(int argc, char **argv)
 {
 	t_config	*config;
-	pthread_t	*threads;
-	pthread_t	control_thread;
 
-	if (!initialization(argc, argv, &config, &threads))
+	if (!initialization(argc, argv, &config))
 		return (1);
-	start_threads(config, threads, &control_thread);
-	catch_threads(threads, control_thread, config->philosopher_count);
-	free_config(config, threads);
+	if (start_threads(config))
+		waitpid(-1, NULL, 0);
+	for (int a = 0; a < config->philosopher_count; a++)
+		printf("pid: %d\n", config->pids[a]);
+	printf("on en est là\n");
+	kill_threads(config);
+	free_config(config);
 	return (0);
 }

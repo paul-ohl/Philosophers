@@ -6,14 +6,14 @@
 /*   By: ft <marvin@42.fr>                          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/18 19:17:50 by ft                #+#    #+#             */
-/*   Updated: 2021/04/25 16:33:27 by ft               ###   ########.fr       */
+/*   Updated: 2021/04/27 10:44:35 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_two.h"
+#include "philo_three.h"
 #include <stdlib.h>
 
-bool	free_config(t_config *config, pthread_t *threads)
+bool	free_config(t_config *config)
 {
 	if (config)
 	{
@@ -27,7 +27,5 @@ bool	free_config(t_config *config, pthread_t *threads)
 			free(config->time_of_death);
 		free(config);
 	}
-	if (threads)
-		free(threads);
 	return (false);
 }

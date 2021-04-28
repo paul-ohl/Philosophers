@@ -6,20 +6,20 @@
 /*   By: paulohl <pohl@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 14:27:07 by paulohl           #+#    #+#             */
-/*   Updated: 2021/04/25 15:52:57 by ft               ###   ########.fr       */
+/*   Updated: 2021/04/28 12:00:10 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
-#include "philo_two.h"
+#include "philo_three.h"
 #include "philo_act.h"
 
 static void	init_variables(t_config *config, t_local *local)
 {
 	local->eat_count = config->eat_count;
-	sem_wait(config->main_semaphore);
-	(config->id)++;
 	local->id = config->id;
+	sem_wait(config->main_semaphore);
+	printf("Hi! I'm %d\n", local->id);
 	config->time_of_death[local->id] = add_ms(config->time_to_die);
 	sem_post(config->main_semaphore);
 }

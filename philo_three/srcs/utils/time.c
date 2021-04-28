@@ -6,11 +6,11 @@
 /*   By: paulohl <pohl@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 18:11:45 by paulohl           #+#    #+#             */
-/*   Updated: 2021/04/22 12:44:26 by ft               ###   ########.fr       */
+/*   Updated: 2021/04/27 10:44:39 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_two.h"
+#include "philo_three.h"
 
 struct timeval	add_ms(t_msec ms)
 {

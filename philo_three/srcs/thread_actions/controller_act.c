@@ -6,12 +6,12 @@
 /*   By: paulohl <pohl@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 18:38:27 by paulohl           #+#    #+#             */
-/*   Updated: 2021/04/22 12:44:11 by ft               ###   ########.fr       */
+/*   Updated: 2021/04/27 10:44:24 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
-#include "philo_two.h"
+#include "philo_three.h"
 
 static bool	is_dead(struct timeval time_of_death, int *finish_count)
 {

@@ -6,11 +6,11 @@
 /*   By: ft <marvin@42.fr>                          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 08:23:15 by ft                #+#    #+#             */
-/*   Updated: 2021/04/25 16:15:32 by ft               ###   ########.fr       */
+/*   Updated: 2021/04/27 10:44:26 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_two.h"
+#include "philo_three.h"
 #include <unistd.h>
 
 void	take_forks(t_config *config, int id)
