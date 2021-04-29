@@ -6,7 +6,7 @@
 /*   By: paulohl <pohl@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 09:01:55 by paulohl           #+#    #+#             */
-/*   Updated: 2021/04/29 22:58:49 by ft               ###   ########.fr       */
+/*   Updated: 2021/04/29 23:34:26 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ bool			print_error(const char *err);
 void			print_status(t_config *config, int id, const int act);
 
 bool			is_argcount_valid(int argc);
+bool			is_input_valid(t_config *config);
 bool			initialization(int ac, char **av, t_config **c, pthread_t **t);
 
 void			stop_execution(pthread_mutex_t *mutex_lock);

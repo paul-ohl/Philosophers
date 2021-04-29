@@ -6,7 +6,7 @@
 /*   By: paulohl <pohl@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 18:11:45 by paulohl           #+#    #+#             */
-/*   Updated: 2021/04/22 12:44:26 by ft               ###   ########.fr       */
+/*   Updated: 2021/04/29 23:23:51 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ struct timeval	add_ms(t_msec ms)
 	return (timestamp);
 }
 
-bool	is_alive(struct timeval time_of_death)
+bool			is_alive(struct timeval time_of_death)
 {
 	struct timeval	current_time;
 

@@ -6,7 +6,7 @@
 /*   By: paulohl <pohl@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 15:59:39 by paulohl           #+#    #+#             */
-/*   Updated: 2021/04/29 23:09:22 by ft               ###   ########.fr       */
+/*   Updated: 2021/04/29 23:33:30 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static bool
 		err = pthread_mutex_init(&(config->forks[i]), NULL);
 		if (err)
 		{
-			printf("Error with mutex initialization\n");
+			print_error("Error with mutex initialization\n");
 			while (i--)
 				pthread_mutex_destroy(&(config->forks[i]));
 			free(config->forks);

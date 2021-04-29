@@ -6,7 +6,7 @@
 /*   By: paulohl <pohl@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 14:27:07 by paulohl           #+#    #+#             */
-/*   Updated: 2021/04/29 11:55:00 by ft               ###   ########.fr       */
+/*   Updated: 2021/04/29 23:30:32 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 #include "philo_three.h"
 #include "philo_act.h"
 
-static bool is_dead(struct timeval time_of_death)
+static bool	is_dead(struct timeval time_of_death)
 {
-	struct timeval  time_now;
+	struct timeval	time_now;
 
 	if (time_of_death.tv_sec == 0)
 		return (false);
@@ -31,7 +31,7 @@ static bool is_dead(struct timeval time_of_death)
 		return (false);
 }
 
-void	*check_death(void *config_v)
+void		*check_death(void *config_v)
 {
 	t_config	*config;
 
@@ -48,7 +48,7 @@ void	*check_death(void *config_v)
 	return (NULL);
 }
 
-void	philo_eat(t_config *config)
+void		philo_eat(t_config *config)
 {
 	take_forks(config);
 	print_status(config, ACT_EAT);
@@ -58,7 +58,7 @@ void	philo_eat(t_config *config)
 	drop_forks(config);
 }
 
-void	*philo_act(t_config *config)
+void		*philo_act(t_config *config)
 {
 	pthread_t	death_checker;
 

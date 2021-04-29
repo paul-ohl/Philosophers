@@ -6,7 +6,7 @@
 /*   By: paulohl <pohl@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 15:59:39 by paulohl           #+#    #+#             */
-/*   Updated: 2021/04/29 22:46:11 by ft               ###   ########.fr       */
+/*   Updated: 2021/04/29 23:28:55 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 #include "libft.h"
 #include "philo_three.h"
 
-static bool	initialize_locks(t_config *config)
+static bool
+	initialize_locks(t_config *config)
 {
 	config->sem = malloc(sizeof(*config->sem));
 	if (!config->sem)
@@ -44,7 +45,8 @@ static bool	initialize_locks(t_config *config)
 	return (true);
 }
 
-static t_config	*initialize_struct(int argc, char **argv)
+static t_config
+	*initialize_struct(int argc, char **argv)
 {
 	t_config	*config;
 
@@ -70,7 +72,8 @@ static t_config	*initialize_struct(int argc, char **argv)
 	return (config);
 }
 
-bool	initialization(int argc, char **argv, t_config **config)
+bool
+	initialization(int argc, char **argv, t_config **config)
 {
 	if (!is_argcount_valid(argc))
 		return (false);

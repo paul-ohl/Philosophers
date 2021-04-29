@@ -6,7 +6,7 @@
 /*   By: paulohl <pohl@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 14:27:07 by paulohl           #+#    #+#             */
-/*   Updated: 2021/04/25 15:52:57 by ft               ###   ########.fr       */
+/*   Updated: 2021/04/29 23:23:37 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	init_variables(t_config *config, t_local *local)
 	sem_post(config->main_semaphore);
 }
 
-void	philo_eat(t_config *config, t_local *local)
+void		philo_eat(t_config *config, t_local *local)
 {
 	if (!config->is_over)
 	{
@@ -37,7 +37,7 @@ void	philo_eat(t_config *config, t_local *local)
 	}
 }
 
-void	philo_sleep(t_config *config, t_local *local)
+void		philo_sleep(t_config *config, t_local *local)
 {
 	if (!config->is_over)
 	{
@@ -46,12 +46,12 @@ void	philo_sleep(t_config *config, t_local *local)
 	}
 }
 
-void	philo_think(t_config *config, t_local *local)
+void		philo_think(t_config *config, t_local *local)
 {
 	print_status(config, local->id, ACT_THINK);
 }
 
-void	*philo_act(t_config *config)
+void		*philo_act(t_config *config)
 {
 	t_local	local;
 

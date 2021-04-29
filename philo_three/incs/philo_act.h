@@ -6,7 +6,7 @@
 /*   By: paulohl <pohl@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 14:34:41 by paulohl           #+#    #+#             */
-/*   Updated: 2021/04/28 11:57:10 by ft               ###   ########.fr       */
+/*   Updated: 2021/04/29 23:27:42 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ typedef struct	s_local
 {
 	unsigned int	id;
 	int				eat_count;
-}	t_local;
+}				t_local;
 
-void	*philo_act(t_config *config);
-void	*controller_act(t_config *config);
-bool	can_eat(t_config *config, unsigned int id);
-bool	is_alive(struct timeval time_of_death);
-int		get_time_to_wait(t_msec time_to_check, struct timeval time_of_death);
+void			*philo_act(t_config *config);
+void			*controller_act(t_config *config);
+bool			can_eat(t_config *config, unsigned int id);
+bool			is_alive(struct timeval time_of_death);
+int				get_time_to_wait(t_msec t_check, struct timeval t_death);
 
 #endif

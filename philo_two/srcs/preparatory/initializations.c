@@ -6,7 +6,7 @@
 /*   By: paulohl <pohl@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 15:59:39 by paulohl           #+#    #+#             */
-/*   Updated: 2021/04/25 16:32:49 by ft               ###   ########.fr       */
+/*   Updated: 2021/04/29 23:23:07 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 #include "libft.h"
 #include "philo_two.h"
 
-static bool	initialize_lock(t_config *config)
+static bool
+	initialize_lock(t_config *config)
 {
 	sem_unlink(FORK_SEMAPHORE_NAME);
 	config->fork_semaphore = sem_open(FORK_SEMAPHORE_NAME, O_CREAT, 0644,
@@ -45,7 +46,8 @@ static bool	initialize_lock(t_config *config)
 	return (true);
 }
 
-static t_config	*initialize_struct(int argc, char **argv)
+static t_config
+	*initialize_struct(int argc, char **argv)
 {
 	t_config	*config;
 
@@ -73,7 +75,8 @@ static t_config	*initialize_struct(int argc, char **argv)
 	return (config);
 }
 
-bool	initialization(int ac, char **av, t_config **cfg, pthread_t **threads)
+bool
+	initialization(int ac, char **av, t_config **cfg, pthread_t **threads)
 {
 	if (!is_argcount_valid(ac))
 		return (false);

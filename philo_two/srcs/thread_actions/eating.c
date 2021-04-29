@@ -6,7 +6,7 @@
 /*   By: ft <marvin@42.fr>                          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 08:23:15 by ft                #+#    #+#             */
-/*   Updated: 2021/04/25 16:15:32 by ft               ###   ########.fr       */
+/*   Updated: 2021/04/29 23:24:23 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,3 @@ void	drop_forks(t_config *config)
 	sem_post(config->fork_semaphore);
 	sem_post(config->fork_semaphore);
 }
-
