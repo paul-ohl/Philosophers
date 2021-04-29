@@ -6,7 +6,7 @@
 /*   By: ft <marvin@42.fr>                          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 09:31:19 by ft                #+#    #+#             */
-/*   Updated: 2021/04/27 10:44:12 by ft               ###   ########.fr       */
+/*   Updated: 2021/04/29 11:54:20 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,17 +74,15 @@ int		set_action(char log[LOG_LEN], int offset, const int action)
 	return (log_len);
 }
 
-void	print_status(t_config *config, int id, const int action)
+void	print_status(t_config *config, const int action)
 {
 	char	log[LOG_LEN];
 	int		log_len;
 
 	log_len = set_timestamp(log, config->time_zero);
-	log_len += write_nb_to_str(log + log_len, id,
+	log_len += write_nb_to_str(log + log_len, config->id,
 			ft_intlen(config->philosopher_count));
 	log_len += set_action(log, log_len, action);
-	sem_wait(config->output_semaphore);
 	if (!config->is_over)
 		write(1, log, log_len);
-	sem_post(config->output_semaphore);
 }

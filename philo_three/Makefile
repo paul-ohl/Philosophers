@@ -9,7 +9,7 @@ SRCS		= main.c \
 			  output/errors.c output/print_status.c \
 			  preparatory/initializations.c preparatory/input_checks.c \
 			  thread_actions/philo_act.c thread_actions/threads.c \
-			  thread_actions/controller_act.c thread_actions/eating.c \
+			  thread_actions/eating.c thread_actions/checkers.c \
 			  utils/time.c utils/free.c
 
 # Compiler options

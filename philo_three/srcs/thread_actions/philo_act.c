@@ -6,7 +6,7 @@
 /*   By: paulohl <pohl@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 14:27:07 by paulohl           #+#    #+#             */
-/*   Updated: 2021/04/28 12:00:10 by ft               ###   ########.fr       */
+/*   Updated: 2021/04/29 11:55:00 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,61 +14,69 @@
 #include "philo_three.h"
 #include "philo_act.h"
 
-static void	init_variables(t_config *config, t_local *local)
+static bool is_dead(struct timeval time_of_death)
 {
-	local->eat_count = config->eat_count;
-	local->id = config->id;
-	sem_wait(config->main_semaphore);
-	printf("Hi! I'm %d\n", local->id);
-	config->time_of_death[local->id] = add_ms(config->time_to_die);
-	sem_post(config->main_semaphore);
+	struct timeval  time_now;
+
+	if (time_of_death.tv_sec == 0)
+		return (false);
+	gettimeofday(&time_now, NULL);
+	if (time_now.tv_sec > time_of_death.tv_sec)
+		return (true);
+	else if (time_now.tv_sec < time_of_death.tv_sec)
+		return (false);
+	if (time_now.tv_usec > time_of_death.tv_usec)
+		return (true);
+	else
+		return (false);
 }
 
-void	philo_eat(t_config *config, t_local *local)
+void	*check_death(void *config_v)
 {
-	if (!config->is_over)
+	t_config	*config;
+
+	config = (t_config*)config_v;
+	while (!config->is_over)
 	{
-		take_forks(config, local->id);
-		print_status(config, local->id, ACT_EAT);
-		config->time_of_death[local->id] = add_ms(config->time_to_die);
-		usleep(config->time_to_eat * 1000);
-		(local->eat_count)--;
-		drop_forks(config);
+		if (is_dead(config->time_of_death))
+		{
+			print_status(config, ACT_DIE);
+			sem_post(config->sem->death_semaphore);
+			config->is_over = true;
+		}
 	}
+	return (NULL);
 }
 
-void	philo_sleep(t_config *config, t_local *local)
+void	philo_eat(t_config *config)
 {
-	if (!config->is_over)
-	{
-		print_status(config, local->id, ACT_SLEEP);
-		usleep(config->time_to_sleep * 1000);
-	}
-}
-
-void	philo_think(t_config *config, t_local *local)
-{
-	print_status(config, local->id, ACT_THINK);
+	take_forks(config);
+	print_status(config, ACT_EAT);
+	config->time_of_death = add_ms(config->time_to_die);
+	usleep(config->time_to_eat * 1000);
+	(config->eat_count)--;
+	drop_forks(config);
 }
 
 void	*philo_act(t_config *config)
 {
-	t_local	local;
+	pthread_t	death_checker;
 
-	init_variables(config, &local);
-	usleep(config->time_to_eat * (local.id % 2) / 2);
-	while (!config->is_over && local.eat_count != 0)
+	config->time_of_death = add_ms(config->time_to_die);
+	pthread_create(&death_checker, NULL, check_death, config);
+	pthread_detach(death_checker);
+	while (!config->is_over && config->eat_count != 0)
 	{
-		philo_eat(config, &local);
-		philo_sleep(config, &local);
-		philo_think(config, &local);
+		philo_eat(config);
+		print_status(config, ACT_SLEEP);
+		usleep(config->time_to_sleep * 1000);
+		print_status(config, ACT_THINK);
 		usleep(1000);
 	}
-	if (local.eat_count == 0)
+	if (config->eat_count == 0)
 	{
-		print_status(config, local.id, ACT_DONE);
-		config->time_of_death[local.id].tv_sec = 0;
-		config->time_of_death[local.id].tv_usec = 0;
+		print_status(config, ACT_DONE);
+		sem_post(config->sem->done_semaphore);
 	}
 	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: paulohl <pohl@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 15:59:39 by paulohl           #+#    #+#             */
-/*   Updated: 2021/04/27 11:42:39 by ft               ###   ########.fr       */
+/*   Updated: 2021/04/29 22:46:11 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,27 +17,26 @@
 #include "libft.h"
 #include "philo_three.h"
 
-static bool	initialize_lock(t_config *config)
+static bool	initialize_locks(t_config *config)
 {
-	sem_unlink(FORK_SEMAPHORE_NAME);
-	config->fork_semaphore = sem_open(FORK_SEMAPHORE_NAME, O_CREAT, 0644,
+	config->sem = malloc(sizeof(*config->sem));
+	if (!config->sem)
+		return (false);
+	sem_unlink(FORK_SEMAPHORE);
+	config->sem->fork_semaphore = sem_open(FORK_SEMAPHORE, O_CREAT, 0644,
 			config->philosopher_count);
-	if (config->fork_semaphore == NULL)
-	{
-		free_config(config);
-		return (false);
-	}
-	sem_unlink(MAIN_SEMAPHORE_NAME);
-	config->main_semaphore = sem_open(MAIN_SEMAPHORE_NAME, O_CREAT, 0644, 1);
-	if (config->main_semaphore == NULL)
-	{
-		free_config(config);
-		return (false);
-	}
-	sem_unlink(OUTPUT_SEMAPHORE_NAME);
-	config->output_semaphore = sem_open(OUTPUT_SEMAPHORE_NAME, O_CREAT, 0644,
+	sem_unlink(MAIN_SEMAPHORE);
+	config->sem->main_semaphore = sem_open(MAIN_SEMAPHORE, O_CREAT, 0644, 0);
+	sem_unlink(OUTPUT_SEMAPHORE);
+	config->sem->output_semaphore = sem_open(OUTPUT_SEMAPHORE, O_CREAT, 0644,
 			1);
-	if (config->output_semaphore == NULL)
+	sem_unlink(DEATH_SEMAPHORE);
+	config->sem->death_semaphore = sem_open(DEATH_SEMAPHORE, O_CREAT, 0644, 0);
+	sem_unlink(DONE_SEMAPHORE);
+	config->sem->done_semaphore = sem_open(DONE_SEMAPHORE, O_CREAT, 0644, 0);
+	if (!config->sem->fork_semaphore || !config->sem->main_semaphore
+			|| !config->sem->output_semaphore || !config->sem->death_semaphore
+			|| !config->sem->done_semaphore)
 	{
 		free_config(config);
 		return (false);
@@ -61,25 +60,25 @@ static t_config	*initialize_struct(int argc, char **argv)
 		config->eat_count = ft_atoi(argv[5]);
 	else
 		config->eat_count = -1;
-	config->pids = ft_calloc(sizeof(*config->pids), config->philosopher_count);
+	config->pids = malloc(sizeof(*config->pids) * config->philosopher_count);
 	if (!config->pids)
 	{
-		free_config(config);
+		free(config);
 		return (NULL);
 	}
 	config->is_over = false;
 	return (config);
 }
 
-bool	initialization(int ac, char **av, t_config **cfg)
+bool	initialization(int argc, char **argv, t_config **config)
 {
-	if (!is_argcount_valid(ac))
+	if (!is_argcount_valid(argc))
 		return (false);
-	*cfg = initialize_struct(ac, av);
-	if (!is_input_valid(*cfg))
+	*config = initialize_struct(argc, argv);
+	if (!is_input_valid(*config))
 		return (false);
-	if (!initialize_lock(*cfg))
+	if (!initialize_locks(*config))
 		return (false);
-	gettimeofday(&(*cfg)->time_zero, NULL);
+	gettimeofday(&(*config)->time_zero, NULL);
 	return (true);
 }

@@ -6,7 +6,7 @@
 /*   By: paulohl <pohl@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/27 17:55:59 by paulohl           #+#    #+#             */
-/*   Updated: 2021/04/28 11:36:47 by ft               ###   ########.fr       */
+/*   Updated: 2021/04/29 22:49:02 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,16 @@ int		main(int argc, char **argv)
 
 	if (!initialization(argc, argv, &config))
 		return (1);
-	if (start_threads(config))
-		waitpid(-1, NULL, 0);
-	for (int a = 0; a < config->philosopher_count; a++)
-		printf("pid: %d\n", config->pids[a]);
-	printf("on en est là\n");
-	kill_threads(config);
+	if (start_threads(config, config->philosopher_count - 1))
+	{
+		if (argc == 6)
+			check_for_done_eating(config);
+		check_for_death(config);
+		sem_wait(config->sem->main_semaphore);
+	}
+	else
+		print_error("Failed to create threads");
+	kill_all_threads(config);
 	free_config(config);
 	return (0);
 }
