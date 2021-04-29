@@ -6,14 +6,12 @@
 /*   By: paulohl <pohl@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 09:01:55 by paulohl           #+#    #+#             */
-/*   Updated: 2021/04/25 16:12:51 by ft               ###   ########.fr       */
+/*   Updated: 2021/04/29 22:58:49 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_ONE_H
 # define PHILO_ONE_H
-
-#include <stdio.h>
 
 # include <sys/time.h>
 # include <pthread.h>
@@ -31,7 +29,7 @@ enum	e_actions
 };
 
 typedef int	t_msec;
-typedef struct s_config
+typedef struct	s_config
 {
 	int				philosopher_count;
 	t_msec			time_to_die;
@@ -46,16 +44,12 @@ typedef struct s_config
 	int				id;
 }				t_config;
 
-/* Output */
 bool			print_error(const char *err);
 void			print_status(t_config *config, int id, const int act);
 
-/* Preparatory */
-bool			is_input_valid(t_config *config);
 bool			is_argcount_valid(int argc);
 bool			initialization(int ac, char **av, t_config **c, pthread_t **t);
 
-/* Thread actions */
 void			stop_execution(pthread_mutex_t *mutex_lock);
 void			resume_execution(pthread_mutex_t *mutex_lock);
 void			start_threads(t_config *cfg, pthread_t *t, pthread_t *ctrl);
@@ -63,7 +57,6 @@ void			catch_threads(pthread_t *t, pthread_t ctrl, int philo_count);
 void			take_forks(t_config *config, int id);
 void			drop_forks(t_config *config, int id);
 
-/* Utils */
 struct timeval	add_ms(t_msec ms);
 bool			free_config(t_config *config, pthread_t *threads);
 

@@ -6,7 +6,7 @@
 /*   By: ft <marvin@42.fr>                          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 09:31:19 by ft                #+#    #+#             */
-/*   Updated: 2021/04/25 16:30:48 by ft               ###   ########.fr       */
+/*   Updated: 2021/04/29 23:07:57 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 
 #define LOG_LEN 100
 
-int	get_timestamp(struct timeval time_zero)
+int		get_timestamp(struct timeval time_zero)
 {
 	struct timeval	time_now;
-	int		timestamp;
+	int				timestamp;
 
 	gettimeofday(&time_now, NULL);
 	timestamp = (time_now.tv_sec - time_zero.tv_sec) * 1000;
@@ -83,6 +83,7 @@ void	print_status(t_config *config, int id, const int action)
 	log_len += write_nb_to_str(log + log_len, id,
 			ft_intlen(config->philosopher_count));
 	log_len += set_action(log, log_len, action);
+	printf(">>>> %d\n", config->is_over);
 	if (!config->is_over)
 		write(1, log, log_len);
 }

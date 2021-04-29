@@ -6,7 +6,7 @@
 /*   By: paulohl <pohl@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 15:59:39 by paulohl           #+#    #+#             */
-/*   Updated: 2021/04/25 16:12:36 by ft               ###   ########.fr       */
+/*   Updated: 2021/04/29 23:09:22 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 #include "libft.h"
 #include "philo_one.h"
 
-static bool	initialize_lock(t_config *config)
+static bool
+	initialize_lock(t_config *config)
 {
 	int		i;
 	int		err;
@@ -39,7 +40,8 @@ static bool	initialize_lock(t_config *config)
 	return (true);
 }
 
-static t_config	*initialize_struct(int argc, char **argv)
+static t_config
+	*initialize_struct(int argc, char **argv)
 {
 	t_config	*config;
 
@@ -66,7 +68,8 @@ static t_config	*initialize_struct(int argc, char **argv)
 	return (config);
 }
 
-bool	initialization(int ac, char **av, t_config **cfg, pthread_t **threads)
+bool
+	initialization(int ac, char **av, t_config **cfg, pthread_t **threads)
 {
 	if (!is_argcount_valid(ac))
 		return (false);

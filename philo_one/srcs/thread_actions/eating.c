@@ -6,7 +6,7 @@
 /*   By: ft <marvin@42.fr>                          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 08:23:15 by ft                #+#    #+#             */
-/*   Updated: 2021/04/25 16:11:29 by ft               ###   ########.fr       */
+/*   Updated: 2021/04/29 23:10:09 by ft               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,3 @@ void	drop_forks(t_config *config, int id)
 	pthread_mutex_unlock(&config->forks[right_fork]);
 	pthread_mutex_unlock(&config->forks[left_fork]);
 }
-
